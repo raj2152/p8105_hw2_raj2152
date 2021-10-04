@@ -55,6 +55,24 @@ precip_tidy =
   bind_rows(precip18_df, precip19_df) %>% 
   janitor::clean_names() %>% 
   mutate(month = month.name[month])
+
+precip_tidy
 ```
 
+About these data...
+```{r, results = FALSE}
+skimr::skim(trashwheel_df)
+trash19_df = filter(trashwheel_df, year == "2019")
+median(pull(trash19_df, sports_balls))
 
+skimr::skim(precip18_df)
+skimr::skim(precip19_df)
+skimr::skim(precip_tidy)
+sum(pull(precip18_df, total_precipitation))
+```
+
+### About Mr. Trash Wheel
+There were 344 observations and 14 variables in the Mr. Trash Wheel dataset. The variables identified the date of operation for specific dumpsters and measured the total weight and volume of trash collected. There are also separate variables indicating the count of item types collected -- for example, plastic and glass bottles, grocery bags, cigarette butts, etc. The variable 'homes powered' also provided a count of homes powered by the trash from Mr. Trash Wheel. The median number of sports balls in a dumpster in 2019 was 8.5 sports balls. 
+
+### About 2018 & 2019 Precipitation Data
+The total precipitation for 2018 was 70.33 inches. 2018 had 12 observations and 2019 had 6 observations. In 2018, the average precipitation was 5.86 inches. In 2019, the average precipitation was 2.78 inches. The key variables were month and total precipitation in inches. The resulting merged dataset, thus, shows 18 total observations for total precipitation in inches with a monthly average precipitation total of 4.83 inches. 
