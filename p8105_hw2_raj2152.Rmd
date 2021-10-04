@@ -13,12 +13,15 @@ library(haven)
 
 # Problem 1
 
-Importing the Mr. Trash Wheel sheet.
+Importing and cleaning the Mr. Trash Wheel sheet.
 ```{r}
 trashwheel_df = 
   read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
     sheet = "Mr. Trash Wheel",
     range = "A2:N408"
-  )
+  ) %>% 
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(across(sports_balls, round, 0))
 ```
 
