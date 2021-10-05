@@ -217,3 +217,14 @@ jayden_df %>%
   knitr::kable(caption = "Table 2. Rank of male name Jayden by ethnicity and year")
 ```
 
+Create scatterplot for white non-hispanic males in 2016.
+
+```{r}
+whitemale16_df = 
+  filter(baby_df, gender == "male", ethnicity == "white non hispanic", year_of_birth == "2016")
+
+whitemale16_df %>% 
+ggplot(aes(x = rank, y = count)) + 
+geom_point()
+```
+
