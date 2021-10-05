@@ -134,7 +134,7 @@ unemp_df =
   arrange(year, month) 
 ```
 
-Merge together pols_month.csv and snp.csv
+Merge together pols_month.csv and snp.csv, then merge with unemployment.csv
 
 ```{r}
 merged_df =
@@ -174,5 +174,46 @@ baby_df =
     childs_first_name = str_to_lower(childs_first_name)
   ) %>% 
   distinct(year_of_birth, ethnicity, childs_first_name, .keep_all = TRUE)
+```
+
+Let's look at the name Olivia:
+
+```{r}
+olivia_df = 
+  filter(baby_df, childs_first_name == "olivia") %>% 
+  select(-childs_first_name, -gender, -count) %>% 
+  arrange(year_of_birth) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank"
+  ) 
+
+olivia_df %>% 
+  knitr::kable(caption = "Table 1. Rank of female name Olivia by ethnicity and year")
+```
+
+Find the most popular male baby name based off total count by name:
+
+```{r}
+male_df = 
+  filter(baby_df, gender == "male") %>% 
+  select(-ethnicity, -gender, -rank, -year_of_birth) %>% 
+  arrange(count)
+```
+
+Jayden is the most popular name. 
+
+```{r}
+jayden_df = 
+  filter(baby_df, childs_first_name == "jayden") %>% 
+  select(-childs_first_name, -gender, -count) %>% 
+  arrange(year_of_birth) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank"
+  ) 
+
+jayden_df %>% 
+  knitr::kable(caption = "Table 2. Rank of male name Jayden by ethnicity and year")
 ```
 
