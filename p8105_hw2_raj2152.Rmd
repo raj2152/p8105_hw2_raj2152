@@ -106,6 +106,7 @@ snp_df =
   janitor::clean_names() %>% 
   mutate(date = as.Date(date, "%m/%d/%y")) %>% 
   separate(date, into = c("year","month","day"), sep = "-") %>% 
+  arrange(month) %>% 
   mutate(
     month = as.numeric(month),
     month = month.name[month],
@@ -113,8 +114,8 @@ snp_df =
     year = as.numeric(year),
     year = ifelse(year > 2021, year - 100, year)
     ) %>% 
-  select(-day) %>% 
-  arrange(year, month) 
+  arrange(year) %>% 
+  select(-day)
 ```
 
 Third, clean unemployment data:
@@ -196,26 +197,18 @@ olivia_df %>%
 Find the most popular male baby name based off total count by name:
 
 ```{r}
-male_df = 
-  filter(baby_df, gender == "male") %>% 
-  select(-ethnicity, -gender, -rank, -year_of_birth) %>% 
-  arrange(count)
-```
-
-Jayden is the most popular name. 
-
-```{r}
-jayden_df = 
-  filter(baby_df, childs_first_name == "jayden") %>% 
-  select(-childs_first_name, -gender, -count) %>% 
+male_df =
+  filter(baby_df, gender == "male", rank == "1") %>% 
+  select(-gender, -count) %>% 
   arrange(year_of_birth) %>% 
   pivot_wider(
     names_from = "year_of_birth",
-    values_from = "rank"
-  ) 
+    values_from = "childs_first_name"
+  ) %>% 
+  select(-rank)
 
-jayden_df %>% 
-  knitr::kable(caption = "Table 2. Rank of male name Jayden by ethnicity and year")
+male_df %>% 
+  knitr::kable(caption = "Table 2. Most popular male names by ethnicity and year")
 ```
 
 Create scatterplot for white non-hispanic males in 2016.
