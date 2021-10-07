@@ -91,11 +91,12 @@ pols_month_df =
     month = month.name[month],
     month = str_to_lower(month),
     year = as.numeric(year),
-    prez_gop = replace(prez_gop, prez_gop == "1", "gop"),
-    prez_gop = replace(prez_gop, prez_gop == "0", "dem"),
+    prez_dem = replace(prez_dem, prez_dem == "1", "dem"),
+    prez_dem = replace(prez_dem, prez_dem == "0", "gop"),
     ) %>% 
-  rename(president = prez_gop) %>% 
-  select(-prez_dem, -day)
+  rename(president = prez_dem) %>% 
+  select(-prez_gop, -day) %>% 
+  relocate(year, month, president)
 ```
 
 Second, clean snp.csv data:
